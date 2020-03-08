@@ -10,7 +10,10 @@ local commands = {
 		checkpoint = "E",
 		removeCheckpoint = "Shift + E",
 		die = "Del",
-		timeLeaderboard = "L"
+		timeLeaderboard = "L",
+		sizeMin = "X",
+		sizeMid = "C",
+		sizeMax = "V"
 	},
 	nextMap = "next",
 	reloadMap = "again",
@@ -58,21 +61,24 @@ local translations = {
 					[3] = "<VP>!%s</VP> <PS>@Code</PS> <R>or</R> <VP>!np <PS>@Code</PS></VP> - Loads a map!",
 				}},
 				[2] = {"\n\t<J>» Others</J>\n", {
-					[1] = "<VP>!%s</VP> <PS>Time</PS> - Set the time of the current round",
-					[2] = "<VP>!%s</VP> <PS>Time</PS> - Set the time of all the rounds",
-					[3] = "<VP>!%s</VP> <PS>[[not] cheese]</PS> - Enables/Disables the checkpoint with or without cheese",
-					[4] = "<VP>!%s</VP> <PS>[Password]</PS> - Sets/Unsets a password in the room",
+					--[1] = "<VP>!%s</VP> <PS>Time</PS> - Set the time of the current round",
+					--[2] = "<VP>!%s</VP> <PS>Time</PS> - Set the time of all the rounds",
+					--[3] = "<VP>!%s</VP> <PS>[[not] cheese]</PS> - Enables/Disables the checkpoint with or without cheese",
+					[1] = "<VP>!%s</VP> <PS>[Password]</PS> - Sets/Unsets a password in the room",
 				}},
 			}},
 			[3] = {"Keyboard Commands", {
-				[1] = {"\t<J>» Checkpoint</J>\n", {
-					[1] = "<VP>Key %s</VP> - Put a checkpoint",
-					[2] = "<VP>Key %s</VP> - Remove a checkpoint",
+				[1] = {"\t<J>» Mouse Size</J>\n", {
+				--	[1] = "<VP>Key %s</VP> - Put a checkpoint",
+				--	[2] = "<VP>Key %s</VP> - Remove a checkpoint",
+					[1] = "<VP>Key %s</VP> - Changes your mouse size to the first size set by the map, if any.",
+					[2] = "<VP>Key %s</VP> - Changes your mouse size to the second (default) size set by the map, if any.",
+					[3] = "<VP>Key %s</VP> - Changes your mouse size to the third size set by the map, if any.",
 				}},
 				[2] = {"\n\t<J>» Others</J>\n", {
-					[1] = "<VP>Key %s</VP> - Kill yourself",
+					[1] = "<VP>Key %s</VP> - Kills you",
 					[2] = "<VP>Hold Key %s</VP> - Displays the time leaderboard for the current map",
-					[3] = "<VP>!%s</VP> - Removes your cheese",
+					--[3] = "<VP>!%s</VP> - Removes your cheese",
 				}},
 			}},
 			[4] = {"Maps", "<J>Maps : %s\n\n\tAccess %s and send your map. Do not forget to read all the rules before!"},
@@ -113,21 +119,24 @@ local translations = {
 					[3] = "<VP>!%s</VP> <PS>@Código</PS> <R>ou</R> <VP>!np <PS>@Código</PS></VP> - Carrega um mapa!",
 				}},
 				[2] = {"\n\t<J>» Outros</J>\n", {
-					[1] = "<VP>!%s</VP> <PS>Tempo</PS> - Define o tempo do mapa atual",
-					[2] = "<VP>!%s</VP> <PS>Tempo</PS> - Define o tempo para todos os rounds",
-					[3] = "<VP>!%s</VP> <PS>[[not] cheese]</PS> - Ativa/Desativa o checkpoint com ou sem queijo",
-					[4] = "<VP>!%s</VP> <PS>[Senha]</PS> - Define/remove uma senha para a sala",
+					--[1] = "<VP>!%s</VP> <PS>Tempo</PS> - Define o tempo do mapa atual",
+					--[2] = "<VP>!%s</VP> <PS>Tempo</PS> - Define o tempo para todos os rounds",
+					--[3] = "<VP>!%s</VP> <PS>[[not] cheese]</PS> - Ativa/Desativa o checkpoint com ou sem queijo",
+					[1] = "<VP>!%s</VP> <PS>[Senha]</PS> - Define/remove uma senha para a sala",
 				}},
 			}},
 			[3] = {"Comandos do Teclado", {
-				[1] = {"\t<J>» Checkpoint</J>\n", {
-					[1] = "<VP>Tecla %s</VP> - Por um checkpoint",
-					[2] = "<VP>Tecla %s</VP> - Remover um checkpoint",
+				[1] = {"\t<J>» Tamanho do Rato</J>\n", {
+				--	[1] = "<VP>Tecla %s</VP> - Por um checkpoint",
+				--	[2] = "<VP>Tecla %s</VP> - Remover um checkpoint",
+					[1] = "<VP>Tecla %s</VP> - Altera o tamanho do seu rato para o primeiro tamanho definido pelo mapa, se houver.",
+					[2] = "<VP>Tecla %s</VP> - Altera o tamanho do seu rato para o segundo (padrão) tamanho definido pelo mapa, se houver.",
+					[3] = "<VP>Tecla %s</VP> - Altera o tamanho do seu rato para o terceiro tamanho definido pelo mapa, se houver.",
 				}},
 				[2] = {"\n\t<J>» Outros</J>\n", {
 					[1] = "<VP>Tecla %s</VP> - Se matar",
 					[2] = "<VP>Pressionar Tecla %s</VP> - Mostra o ranking de tempo do mapa atual",
-					[3] = "<VP>!%s</VP> - Remove seu queijo",
+					--[3] = "<VP>!%s</VP> - Remove seu queijo",
 				}},
 			}},
 			[4] = {"Mapas", "<J>Mapas : %s\n\n\tAccesse %s e envie seu mapa. Não se esqueça de ler todas as regras antes!"},
@@ -156,16 +165,19 @@ local translations = {
 					[3] = "<VP>!%s</VP> <PS>@Code</PS> <R>ou</R> <VP>!np @Code</VP> - Charge une carte!",
 				}},
 				[2] = {"\n\t<J>» Autres</J>\n", {
-					[1] = "<VP>!%s</VP> <PS>Time</PS> - Définie le temps de la carte actuelle",
-					[2] = "<VP>!%s</VP> <PS>Time</PS> - Définie le temps de toutes les cartes",
-					[3] = "<VP>!%s</VP> <PS>[[not] cheese]</PS> - Active/Désactive les checkpoints avec ou sans fromage",
-					[4] = "<VP>!%s</VP> <PS>[Mot de passe]</PS> - Ajoute/supprime un mot de passe au salon",
+					--[1] = "<VP>!%s</VP> <PS>Time</PS> - Définie le temps de la carte actuelle",
+					--[2] = "<VP>!%s</VP> <PS>Time</PS> - Définie le temps de toutes les cartes",
+					--[3] = "<VP>!%s</VP> <PS>[[not] cheese]</PS> - Active/Désactive les checkpoints avec ou sans fromage",
+					[1] = "<VP>!%s</VP> <PS>[Mot de passe]</PS> - Ajoute/supprime un mot de passe au salon",
 				}},
 			}},
 			[3] = {"Commandes de claviers", {
-				[1] = {"\t<J>» Checkpoint</J>\n", {
-						[1] = "<VP>Touche %s</VP> - Met un checkpoint",
-						[2] = "<VP>Touche %s</VP> - Supprime un checkpoint",
+				[1] = {"\t<J>» Taille de la souris</J>\n", {
+					--[1] = "<VP>Touche %s</VP> - Met un checkpoint",
+					--[2] = "<VP>Touche %s</VP> - Supprime un checkpoint",
+					[1] = "<VP>Touche %s</VP> - Change la taille de votre souris avec la première taille disponible, si il y en a une.",
+					[2] = "<VP>Touche %s</VP> - Change la taille de votre souris avec la deuxième taille disponible, si il y en a une.",
+					[3] = "<VP>Touche %s</VP> - Change la taille de votre souris avec la troisième taille disponible, si il y en a une.",
 				}},
 				[2] = {"\n\t<J>» Autres</J>\n", {
 					[1] = "<VP>Touche %s</VP> - Vous tue",
@@ -260,6 +272,60 @@ concat = function(k, v)
 	end
 end
 
+local timer
+do
+	timer = {
+		_timers = {
+			_count = 0
+		}
+	}
+
+	timer.start = function(callback, ms, times, ...)
+		local t = timer._timers
+		t._count = t._count + 1
+
+		t[t._count] = {
+			id = t._count,
+			callback = callback,
+			args = { ... },
+			defaultMilliseconds = ms,
+			milliseconds = ms,
+			times = times
+		}
+		t[t._count].args[#t[t._count].args + 1] = t[t._count]
+
+		return t._count
+	end
+
+	timer.delete = function(id)
+		timer._timers[id] = nil
+	end
+
+	timer.loop = function()
+		local t
+		for i = 1, timer._timers._count do
+			t = timer._timers[i]
+			if t then
+				t.milliseconds = t.milliseconds - 500
+				if t.milliseconds <= 0 then
+					t.milliseconds = t.defaultMilliseconds
+					t.times = t.times - 1
+
+					t.callback(table.unpack(t.args))
+
+					if t.times == 0 then
+						timer.delete(i)
+					end
+				end
+			end
+		end
+	end
+
+	timer.free = function()
+		timer._timers = { _count = 0 }
+	end
+end
+
 -- Encode
 local encodeMaps
 encodeMaps = function(list, one)
@@ -272,7 +338,7 @@ encodeMaps = function(list, one)
 		end
 		return table.concat(out)
 	end
-end 
+end
 
 local decodeMaps = function(str)
 	local out = string.split(str, "%[(.-)%]")
@@ -287,20 +353,20 @@ local maps
 
 local loading_maps = system.loadFile(module.map_file)
 local reloader
-reloader = system.newTimer(function()
+reloader = timer.start(function()
 	if not loading_maps then
 		system.loadFile(module.map_file)
 	end
-end, 1000, true)
+end, 1000, 0)
 eventFileLoaded = function(id, data)
-	system.removeTimer(reloader)
+	timer.delete(reloader)
 	reloader = nil
 
 	maps = decodeMaps(data)
 	for i = 1, #maps do
 		maps[i].queue = maps[i]
 	end
-	maps.queue = { 2, 1, 3, 2, 1, 3, 2, 4 }
+	maps.queue = { 2, 3, 1, 4, 3, 1, 2, 3, 2, 1 }
 
 	do
 		local shuffle = function(list)
@@ -386,6 +452,7 @@ local mapTimes = { }
 local info = { }
 local checkpoint = false
 local respawnCheese = false
+local mapAllowsChangeSize = false
 
 local setPodium
 do
@@ -420,6 +487,8 @@ local rank = function(showPos, showPoints, pointsName, lim)
 	return rank
 end
 
+local mouseSize = { }
+
 -- UI
 ui.menu = function(n)
 	if not info[n].menu.accessing then
@@ -452,12 +521,12 @@ ui.menu = function(n)
 			displayText[2] = table.list(displayText[2], "\n", function(k, v)
 				return concat(k, v)
 			end)
-			displayText[2] = "<font size='10'>" .. string.format(displayText[2], commands.nextMap, commands.reloadMap, commands.newMap, commands.time, commands.standardTime, commands.checkpoint, commands.password)
+			displayText[2] = "<font size='10'>" .. string.format(displayText[2], commands.nextMap, commands.reloadMap, commands.newMap, --[[commands.time, commands.standardTime, commands.checkpoint,]] commands.password)
 		elseif info[n].menu.page == 3 then
 			displayText[2] = table.list(displayText[2], "\n", function(k, v)
 				return concat(k, v)
 			end)
-			displayText[2] = "<font size='10'>" .. string.format(displayText[2], commands.keyboard.checkpoint, commands.keyboard.removeCheckpoint, commands.keyboard.die, commands.keyboard.timeLeaderboard, commands.removecheese)
+			displayText[2] = "<font size='10'>" .. string.format(displayText[2], commands.keyboard.sizeMin, commands.keyboard.sizeMid, commands.keyboard.sizeMax, --[[commands.keyboard.checkpoint, commands.keyboard.removeCheckpoint,]] commands.keyboard.die, commands.keyboard.timeLeaderboard--[[, commands.removecheese]])
 
 		elseif info[n].menu.page == 4 then
 			local m = 0
@@ -483,6 +552,8 @@ end
 local nextMap
 currentTime = 0
 eventLoop = function(currentTime, leftTime)
+	timer.loop()
+
 	_G.currentTime = currentTime
 	if leftTime < 500 then
 		if not nextMap then
@@ -524,18 +595,49 @@ eventNewPlayer = function(n)
 		system.bindKeyboard(n, 76, i == 1, true) -- L
 	end
 
-	for k, v in next, {46, string.byte("HE", 1, 2)} do -- 46 is del
+	for k, v in next, {46, string.byte("HECXV", 1, -1)} do -- 46 is del
 		system.bindKeyboard(n, v, true, true)
 	end
 
 	tfm.exec.chatMessage("<T>" .. string.format(translation.welcome, n) .. "\n\t<CEP>atelier801.com/topic?f=6&t=850791", n)
 end
 
+local resizeEveryone = function(size)
+	for k in next, tfm.get.room.playerList do
+		tfm.exec.changePlayerSize(k, size)
+	end
+end
+
 eventNewGame = function()
+	timer.free()
+	mapAllowsChangeSize = false
+
 	if not maps or not maps.queue then return tfm.exec.setGameTime(0) end
 
 	nextMap = nil
 	if tfm.get.room.xmlMapInfo then
+		local X, C, V = string.match(tfm.get.room.xmlMapInfo.xml, "[\" ]size=\"([^\"]-), *([^\"]-), *([^\"]-)\"")
+		if not X then
+			if string.find(tfm.get.room.xmlMapInfo.xml, "[\" ]size=\"") then
+				X, C, V = 0.5, 1, 3
+			end
+		end
+
+		if X then
+			X, C, V = tonumber(X), tonumber(C), tonumber(V)
+			if X then
+				mouseSize = {
+					[string.byte("X")] = X,
+					[string.byte("C")] = C,
+					[string.byte("V")] = V
+				}
+				mapAllowsChangeSize = true
+				resizeEveryone(C)
+			end
+		else
+			resizeEveryone(1)
+		end
+
 		local code = tonumber(tfm.get.room.xmlMapInfo.mapCode)
 		local diff
 		for j = 1, #maps do
@@ -581,6 +683,8 @@ eventKeyboard = function(n, k, d, x, y)
 		eventChatCommand(n, "h")
 	elseif k == 46 then
 		tfm.exec.killPlayer(n)
+	elseif mapAllowsChangeSize and mouseSize[k] then
+		tfm.exec.changePlayerSize(n, mouseSize[k])
 	end
 end
 
@@ -625,7 +729,7 @@ eventChatCommand = function(n, c)
 					tfm.exec.newGame(maps())
 					tfm.exec.chatMessage("<T>• " .. string.format(translation.loadmap, n, "Random"))
 				end
-
+			--[=[
 			elseif p[1] == "time" then
 				p[2] = p[2] and tonumber(p[2]) or 6
 				tfm.exec.setGameTime(p[2] * 60)
@@ -664,6 +768,7 @@ eventChatCommand = function(n, c)
 						end
 					end
 				end
+			]=]
 			elseif p[1] == "password" or p[1] == "pw" then
 				tfm.exec.setRoomPassword(p[2])
 				if p[2] then
@@ -768,17 +873,21 @@ eventChatCommand = function(n, c)
 	end
 end
 
-eventPlayerDied = function(n)
-	system.newTimer(function()
-		tfm.exec.respawnPlayer(n)
-
-		if checkpoint and info[n].checkpoint[1] then
-			tfm.exec.movePlayer(n, info[n].checkpoint[2], info[n].checkpoint[3])
-			if info[n].cheese and respawnCheese then
-				tfm.exec.giveCheese(n)
-			end
+local respawn = function(n)
+	tfm.exec.respawnPlayer(n)
+	if mapAllowsChangeSize then
+		tfm.exec.changePlayerSize(n, mouseSize[string.byte("C")])
+	end
+	if checkpoint and info[n].checkpoint[1] then
+		tfm.exec.movePlayer(n, info[n].checkpoint[2], info[n].checkpoint[3])
+		if info[n].cheese and respawnCheese then
+			tfm.exec.giveCheese(n)
 		end
-	end, 1500, false)
+	end
+end
+
+eventPlayerDied = function(n)
+	timer.start(respawn, 1500, 1, n)
 end
 
 eventPlayerWon = function(n, t, time)
@@ -789,8 +898,8 @@ eventPlayerWon = function(n, t, time)
 	mapTimes[#mapTimes + 1] = {n .. (info[n].checkpoint[4] and "<R>*</R>" or ""), time/100}
 
 	eventPlayerDied(n, true)
-	if maps.queue._lastCat  then
-		tfm.exec.setPlayerScore(n, maps.queue._lastCat, true)
+	if maps.queue._lastCat then
+		tfm.exec.setPlayerScore(n, maps.queue._lastCat ^ 2, true)
 	end
 
 	tfm.exec.chatMessage(string.format("<ROSE>%s (%ss <PT>(%scheckpoint)</PT>)", n, time/100, info[n].checkpoint[4] and "" or "no "), n)
