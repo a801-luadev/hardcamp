@@ -10,10 +10,10 @@ local commands = {
 		checkpoint = "E",
 		removeCheckpoint = "Shift + E",
 		die = "Del",
-		timeLeaderboard = "L",
-		sizeMin = "H",
-		sizeMid = "J",
-		sizeMax = "K"
+		timeLeaderboard = "o",
+		sizeMin = "J",
+		sizeMid = "K",
+		sizeMax = "L"
 	},
 	nextMap = "next",
 	reloadMap = "again",
@@ -47,7 +47,7 @@ local translations = {
 		setstandtime = "The standard time of all the rounds has been set to %s minutes!",
 		enabled = "enabled! Press <B>E</B> to put a checkpoint and <B>Shift+E</B> to remove it.",
 		difficulty = "Difficulty",
-		sizemap = "The map you are currently playing is a sizemap. You have to switch size to complete it by using the keys <VP>H</VP>, <VP>J</VP> and <VP>K</VP>.",
+		sizemap = "The map you are currently playing is a sizemap. You have to switch size to complete it by using the keys <VP>J</VP>, <VP>K</VP> and <VP>L</VP>.",
 
 		-- Simple words
 		disabled = "disabled!",
@@ -154,7 +154,7 @@ local translations = {
 		setstandtime = "Le temps général pour toutes les cartes à été définie à %s minutes!",
 		enabled = "enabled! Appuyez sur <B>E</B> pour mettre un checkpoint et sur <B>Shift+E</B> pour le supprimer.",
 		difficulty = "Difficulté",
-		sizemap = "La carte que vous êtes en train de jouer est une sizemap. Vous devez changer de taille pour la compléter en utilisant les touches <VP>H</VP>, <VP>J</VP> et <VP>K</VP>.",
+		sizemap = "La carte que vous êtes en train de jouer est une sizemap. Vous devez changer de taille pour la compléter en utilisant les touches <VP>J</VP>, <VP>K</VP> et <VP>L</VP>.",
 
 		disabled = "désactivé!",
 
@@ -593,11 +593,11 @@ eventNewPlayer = function(n)
 	tfm.exec.respawnPlayer(n)
 
 	for i = 1, 2 do
-		system.bindKeyboard(n, 16, i==1, true)
-		system.bindKeyboard(n, 76, i == 1, true) -- L
+		system.bindKeyboard(n, 16, i==1, true) -- shift
+		system.bindKeyboard(n, string.byte("O"), i == 1, true)
 	end
 
-	for k, v in next, {46, string.byte("HEHJK", 1, -1)} do -- 46 is del
+	for k, v in next, {46, string.byte("HEJKL", 1, -1)} do -- 46 is del
 		system.bindKeyboard(n, v, true, true)
 	end
 
@@ -677,7 +677,7 @@ eventKeyboard = function(n, k, d, x, y)
 			info[n].checkpoint = {true, x, y, true}
 			ui.addTextArea(1, "", n, x-5, y-5, 10, 10, 0x56A75A, 0x56A75A, .5, false)
 		end
-	elseif k == string.byte("L") then
+	elseif k == string.byte("O") then
 		if d then
 			ui.addTextArea(2, rank(true, true, "s", 20), n, 5, 30, nil, 200, nil, nil, .8, true)
 		else
