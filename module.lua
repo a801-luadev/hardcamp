@@ -11,9 +11,9 @@ local commands = {
 		removeCheckpoint = "Shift + E",
 		die = "Del",
 		timeLeaderboard = "L",
-		sizeMin = "X",
-		sizeMid = "C",
-		sizeMax = "V"
+		sizeMin = "J",
+		sizeMid = "K",
+		sizeMax = "L"
 	},
 	nextMap = "next",
 	reloadMap = "again",
@@ -47,6 +47,7 @@ local translations = {
 		setstandtime = "The standard time of all the rounds has been set to %s minutes!",
 		enabled = "enabled! Press <B>E</B> to put a checkpoint and <B>Shift+E</B> to remove it.",
 		difficulty = "Difficulty",
+		sizemap = "The map you are currently playing is a sizemap. You have to switch size to complete it by using the keys <VP>J</VP>, <VP>K</VP> and <VP>L</VP>.",
 
 		-- Simple words
 		disabled = "disabled!",
@@ -153,6 +154,7 @@ local translations = {
 		setstandtime = "Le temps général pour toutes les cartes à été définie à %s minutes!",
 		enabled = "enabled! Appuyez sur <B>E</B> pour mettre un checkpoint et sur <B>Shift+E</B> pour le supprimer.",
 		difficulty = "Difficulté",
+		sizemap = "La carte que vous êtes en train de jouer est une sizemap. Vous devez changer de taille pour la compléter en utilisant les touches <VP>J</VP>, <VP>K</VP> et <VP>L</VP>.",
 
 		disabled = "désactivé!",
 
@@ -595,7 +597,7 @@ eventNewPlayer = function(n)
 		system.bindKeyboard(n, 76, i == 1, true) -- L
 	end
 
-	for k, v in next, {46, string.byte("HECXV", 1, -1)} do -- 46 is del
+	for k, v in next, {46, string.byte("HEJKL", 1, -1)} do -- 46 is del
 		system.bindKeyboard(n, v, true, true)
 	end
 
@@ -616,23 +618,25 @@ eventNewGame = function()
 
 	nextMap = nil
 	if tfm.get.room.xmlMapInfo then
-		local X, C, V = string.match(tfm.get.room.xmlMapInfo.xml, "[\" ]size=\"([^\"]-), *([^\"]-), *([^\"]-)\"")
-		if not X then
+		local J, K, L = string.match(tfm.get.room.xmlMapInfo.xml, "[\" ]size=\"([^\"]-), *([^\"]-), *([^\"]-)\"")
+		if not J then
 			if string.find(tfm.get.room.xmlMapInfo.xml, "[\" ]size=\"") then
-				X, C, V = 0.5, 1, 3
+				J, K, L = 0.5, 1, 3
 			end
 		end
 
-		if X then
-			X, C, V = tonumber(X), tonumber(C), tonumber(V)
-			if X then
+		if J then
+			J, K, L = tonumber(J), tonumber(K), tonumber(L)
+			if J then
 				mouseSize = {
-					[string.byte("X")] = X,
-					[string.byte("C")] = C,
-					[string.byte("V")] = V
+					[string.byte("J")] = J,
+					[string.byte("K")] = K,
+					[string.byte("L")] = L
 				}
 				mapAllowsChangeSize = true
 				resizeEveryone(C)
+				
+				tfm.exec.chatMessage("<T>" .. translation.sizemap)
 			end
 		else
 			resizeEveryone(1)
