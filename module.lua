@@ -445,6 +445,8 @@ local roomManagers = {
 	["Auroraclears#0000"] = true,
 	["Bolodefchoco#0000"] = true,
 	["Mquk#0095"] = true,
+	["Shalander#0000"] = true,
+	["Virtini#0000"] = true,
 	["Xorcist#0000"] = true
 }
 local roomAdmins = { }
@@ -635,7 +637,7 @@ eventNewGame = function()
 				}
 				mapAllowsChangeSize = true
 				resizeEveryone(mid)
-				
+
 				tfm.exec.chatMessage("<T>" .. translation.sizemap)
 			end
 		else
@@ -744,7 +746,18 @@ eventChatCommand = function(n, c)
 					module.time = p[2] * 60
 					tfm.exec.chatMessage(string.format(translation.setstandtime, p[2]))
 				end
-			elseif p[1] == "checkpoint" then
+			]=]
+			elseif p[1] == "password" or p[1] == "pw" then
+				tfm.exec.setRoomPassword(p[2])
+				if p[2] then
+					tfm.exec.chatMessage("<CE>The password has been set to <B>" .. p[2] .. "</B>", n)
+				else
+					tfm.exec.chatMessage("<CE>The password has been removed", n)
+				end
+			end
+		end
+		if roomManagers[n] then
+			if p[1] == "checkpoint" then
 				local attribute = false
 				if p[2] then
 					attribute = true
@@ -772,18 +785,7 @@ eventChatCommand = function(n, c)
 						end
 					end
 				end
-			]=]
-			elseif p[1] == "password" or p[1] == "pw" then
-				tfm.exec.setRoomPassword(p[2])
-				if p[2] then
-					tfm.exec.chatMessage("<CE>The password has been set to <B>" .. p[2] .. "</B>", n)
-				else
-					tfm.exec.chatMessage("<CE>The password has been removed", n)
-				end
-			end
-		end
-		if roomManagers[n] then
-			if p[1] == "list" then
+			elseif p[1] == "list" then
 				p[2] = tonumber(p[2])
 				if not p[2] then
 					return tfm.exec.chatMessage("<R>• Missing difficulty level parameter. (1 - 4)", n)
