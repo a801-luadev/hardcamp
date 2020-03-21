@@ -882,7 +882,7 @@ end
 local respawn = function(n)
 	tfm.exec.respawnPlayer(n)
 	if mapAllowsChangeSize then
-		tfm.exec.changePlayerSize(n, mouseSize[string.byte("C")])
+		tfm.exec.changePlayerSize(n, mouseSize[string.byte(commands.keyboard.sizeMid)])
 	end
 	if checkpoint and info[n].checkpoint[1] then
 		tfm.exec.movePlayer(n, info[n].checkpoint[2], info[n].checkpoint[3])
