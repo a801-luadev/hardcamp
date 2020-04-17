@@ -387,7 +387,7 @@ eventFileLoaded = function(id, data)
 		end
 
 		maps.queue._next = 1
-		maps.queue._lastCat = nil
+		maps.queue._currentCat = nil
 		maps.queue._len = #maps.queue
 		for i = 1, #maps do
 			shuffle(maps[i].queue)
@@ -412,7 +412,7 @@ eventFileLoaded = function(id, data)
 					end
 					this.queue._next = this.queue._next % maps.queue._len + 1
 				end
-				this.queue._lastCat = category
+				this.queue._currentCat = category
 
 				local map
 				if hasCat then
@@ -462,13 +462,14 @@ local setPodium
 do
 	local colors = { 0xF8BA00, 0x959595, 0x763C16, 0xD7D7E6 }
 	setPodium = function()
-		local players = { }
+		local players, counter = { }, 0
 		for k, v in next, tfm.get.room.playerList do
-			players[#players + 1] = { k, v.score }
+			counter = counter + 1
+			players[counter] = { k, v.score }
 		end
 		table.sort(players, function(p1, p2) return p1[2] > p2[2] end)
 
-		for i = 1, #players do
+		for i = 1, counter do
 			tfm.exec.setNameColor(players[i][1], colors[(i>4 or players[i][2] < 1) and 4 or i])
 		end
 	end
@@ -654,6 +655,9 @@ eventNewGame = function()
 		end
 		if diff then
 			ui.setMapName("<J>" .. (tfm.get.room.xmlMapInfo and tfm.get.room.xmlMapInfo.author or "?") .. " <BL>- " .. tfm.get.room.currentMap .. "   <G>|<N>   " .. translation.difficulty .. " : <V>" .. diff)
+			maps.queue._currentCat = diff -- just to be sure
+		else
+			maps.queue._currentCat = nil -- 0 points
 		end
 	end
 
@@ -904,8 +908,8 @@ eventPlayerWon = function(n, t, time)
 	mapTimes[#mapTimes + 1] = {n .. (info[n].checkpoint[4] and "<R>*</R>" or ""), time/100}
 
 	eventPlayerDied(n, true)
-	if maps.queue._lastCat then
-		tfm.exec.setPlayerScore(n, maps.queue._lastCat ^ 2, true)
+	if maps.queue._currentCat then
+		tfm.exec.setPlayerScore(n, maps.queue._currentCat ^ 2, true)
 	end
 
 	tfm.exec.chatMessage(string.format("<ROSE>%s (%ss <PT>(%scheckpoint)</PT>)", n, time/100, info[n].checkpoint[4] and "" or "no "), n)
