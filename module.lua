@@ -949,7 +949,7 @@ end
 
 -- Room
 if string.byte(tfm.get.room.name, 2) ~= 3 then -- Is room
-	local info = string.match(tfm.get.room.name, "^*?#hardcamp%d+(.+)")
+	local info = string.match(tfm.get.room.name, "#hardcamp%d+(.+)")
 	if info then
 		local admins = string.gsub(info, "%S+", function(value)
 			roomAdmins[string.nick(value)] = true
