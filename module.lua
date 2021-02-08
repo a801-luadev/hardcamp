@@ -1,5 +1,5 @@
 local module = {
-	owner = "Bolodefchoco#0000",
+	owner = "Bolodefchoco#0015",
 	map_file = 2,
 	time = 6 * 60
 }
@@ -37,7 +37,7 @@ tfm.exec.setAutoMapFlipMode(false)
 local translations = {
 	en = {
 		-- Init
-		welcome = "Welcome to <B>#Hardcamp</B>! Press H to check the commands.\n\tYou as admin: <I>/room *#hardcamp0%s</I>\n\tReport any issue to Bolodefchoco#0000!",
+		welcome = "Welcome to <B>#Hardcamp</B>! Press H to check the commands.\n\tYou as admin: <I>/room *#hardcamp0%s</I>\n\tReport any issue to Bolodefchoco#0015!",
 
 		-- Info
 		skip = "<VP>%s</VP> just skipped the map!",
@@ -87,7 +87,7 @@ local translations = {
 		},
 	},
 	ar = {
-		welcome = "أهلا بك في <B>#Hardcamp</B>! أكتب !info لتري الأوامر\n\tالابلاغ عن المشاكل لـ Bolodefchoco#0000!",
+		welcome = "أهلا بك في <B>#Hardcamp</B>! أكتب !info لتري الأوامر\n\tالابلاغ عن المشاكل لـ Bolodefchoco#0015!",
 
 		skip = "<VP>%s</VP> قام بتخطي الخريطة!",
 		restart = "<VP>%s</VP> قام بإعادة الخريطة الحالية",
@@ -99,7 +99,7 @@ local translations = {
 		disabled = "تعطيل!",
 	},
 	br = {
-		welcome = "Bem-vindo ao <B>#Hardcamp</B>! Digite !info para checar os comandos.\n\tVocê como admin: <I>/sala *#hardcamp0%s</I>\n\tReporte quaisquer problemas para Bolodefchoco#0000!",
+		welcome = "Bem-vindo ao <B>#Hardcamp</B>! Digite !info para checar os comandos.\n\tVocê como admin: <I>/sala *#hardcamp0%s</I>\n\tReporte quaisquer problemas para Bolodefchoco#0015!",
 
 		skip = "<VP>%s</VP> acabou de passar o mapa!",
 		restart = "<VP>%s</VP> acabou de reiniciar o mapa atual!",
@@ -145,7 +145,7 @@ local translations = {
 		},
 	},
 	fr = {
-		welcome = "Bienvenue dans <B>#Hardcamp</B>! Ecrivez !info pour prendre connaîssance des commandes\n\tVeuillez reporter tout problèmes à Bolodefchoco#0000!",
+		welcome = "Bienvenue dans <B>#Hardcamp</B>! Ecrivez !info pour prendre connaîssance des commandes\n\tVeuillez reporter tout problèmes à Bolodefchoco#0015!",
 
 		skip = "<VP>%s</VP> vient de passer la carte!",
 		restart = "<VP>%s</VP> vient de recharger la carte actuelle!",
@@ -191,7 +191,7 @@ local translations = {
 		},
 	},
 	pl = {
-		welcome = "Witaj w <B>#Hardcamp</B>! Wpisz !info na czacie aby sprawdzić jakie są komendy\n\tZgłaszaj wszelkie błędy do Bolodefchoco#0000!",
+		welcome = "Witaj w <B>#Hardcamp</B>! Wpisz !info na czacie aby sprawdzić jakie są komendy\n\tZgłaszaj wszelkie błędy do Bolodefchoco#0015!",
 
 		skip = "<VP>%s</VP> pominął/-ęła mapę!",
 		restart = "<VP>%s</VP> zrestartował/-a mapę!",
@@ -443,7 +443,7 @@ end
 -- System
 local roomManagers = {
 	["Auroraclears#0000"] = true,
-	["Bolodefchoco#0000"] = true,
+	["Bolodefchoco#0015"] = true,
 	["Mquk#0095"] = true,
 	["Shalander#0000"] = true,
 	["Virtini#0000"] = true,
@@ -540,7 +540,7 @@ ui.menu = function(n)
 			end
 			displayText[2] = string.format(displayText[2], m.."<N>", "<BV><a href='event:print.atelier801¬com/topic?f=6&t=850791'>#HARDCAMP MAP SUBMISSIONS</a></BV>")
 		elseif info[n].menu.page == 5 then
-			displayText[2] = string.format(displayText[2], "Bolodefchoco#0000", "<BV>Mquk#0095, Xorcist#0000, Auroraclears#0000</BV>")
+			displayText[2] = string.format(displayText[2], "Bolodefchoco#0015", "<BV>Mquk#0095, Xorcist#0000, Auroraclears#0000</BV>")
 		end
 	end
 
