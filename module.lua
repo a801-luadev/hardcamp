@@ -447,7 +447,12 @@ local roomManagers = {
 	["Mquk#0095"] = true,
 	["Shalander#0000"] = true,
 	["Virtini#0000"] = true,
-	["Xorcist#0000"] = true
+	["Xorcist#0020"] = true,
+	["Aaryaaaaaaaa#1102"] = true,
+	["Alarobzein#0000"] = true,
+	["Liluzivert#0000"] = true,
+	["Omgjrn#0000"] = true,
+	["Portwave#8221"] = true
 }
 local roomAdmins = { }
 for k, v in next, roomManagers do roomAdmins[k] = v end
