@@ -1,7 +1,18 @@
 local module = {
-	owner = "Bolodefchoco#0015",
+	owner = "Bolodefchoco#0095",
 	map_file = 2,
 	time = 6 * 60
+}
+
+local roomManagerIds = {
+	-- Bolodefchoco#0095
+	[7903955] = true,
+	-- Mquk#0095
+	[71191972] = true,
+	-- Xorcist#0000
+	[6727042] = true,
+	-- Alarobzein#0000
+	[1287093] = true
 }
 
 -- Commands
@@ -9,14 +20,14 @@ local commands = {
 	keyboard = {
 		checkpoint = "E",
 		removeCheckpoint = "Shift + E",
-		die = "Del",
+		die = "G / Del",
 		timeLeaderboard = "o",
 		sizeMin = "J",
 		sizeMid = "K",
 		sizeMax = "L"
 	},
 	nextMap = "next",
-	reloadMap = "again",
+	reloadMap = "reset",
 	newMap = "map",
 	time = "time",
 	standardTime = "standtime",
@@ -36,8 +47,9 @@ tfm.exec.setAutoMapFlipMode(false)
 -- Translations
 local translations = {
 	en = {
+		desc = "English",
 		-- Init
-		welcome = "Welcome to <B>#Hardcamp</B>! Press H to check the commands.\n\tYou as admin: <I>/room *#hardcamp0%s</I>\n\tReport any issue to Bolodefchoco#0015!",
+		welcome = "Welcome to <B>#Hardcamp</B>! Press H to check the commands.\n\tYou as admin: <I>/room *#hardcamp0%s</I>\n\tReport any issue to Hardcamp Team!",
 
 		-- Info
 		skip = "<VP>%s</VP> just skipped the map!",
@@ -48,6 +60,7 @@ local translations = {
 		enabled = "enabled! Press <B>E</B> to put a checkpoint and <B>Shift+E</B> to remove it.",
 		difficulty = "Difficulty",
 		sizemap = "The map you are currently playing is a sizemap. You have to switch size to complete it by using the keys <VP>J</VP>, <VP>K</VP> and <VP>L</VP>.",
+        errorloadintribe = "The map loaded cannot be played in this room. You have to load this in the Tribe House.",
 
 		-- Simple words
 		disabled = "disabled!",
@@ -59,7 +72,7 @@ local translations = {
 				[1] = {"\t<J>» Maps</J>\n", {
 					[1] = "<VP>!%s</VP> - Pass the map!",
 					[2] = "<VP>!%s</VP> - Reloads the current map!",
-					[3] = "<VP>!%s</VP> <PS>@Code</PS> <R>or</R> <VP>!np <PS>@Code</PS></VP> - Loads a map!",
+					[3] = "<VP>!%s</VP> <PS>@Code</PS> <R>or</R> <VP>!np <PS>@Code</PS></VP> - Loads a map from the rotation!",
 				}},
 				[2] = {"\n\t<J>» Others</J>\n", {
 					--[1] = "<VP>!%s</VP> <PS>Time</PS> - Set the time of the current round",
@@ -72,6 +85,7 @@ local translations = {
 				[1] = {"\t<J>» Mouse Size</J>\n", {
 				--	[1] = "<VP>Key %s</VP> - Put a checkpoint",
 				--	[2] = "<VP>Key %s</VP> - Remove a checkpoint",
+
 					[1] = "<VP>Key %s</VP> - Changes your mouse size to the first size set by the map, if any.",
 					[2] = "<VP>Key %s</VP> - Changes your mouse size to the second (default) size set by the map, if any.",
 					[3] = "<VP>Key %s</VP> - Changes your mouse size to the third size set by the map, if any.",
@@ -87,7 +101,8 @@ local translations = {
 		},
 	},
 	ar = {
-		welcome = "أهلا بك في <B>#Hardcamp</B>! أكتب !info لتري الأوامر\n\tالابلاغ عن المشاكل لـ Bolodefchoco#0015!",
+		desc = "عربي",
+		welcome = "أهلا بك في <B>#Hardcamp</B>! أكتب !info لتري الأوامر\n\tالابلاغ عن المشاكل لـ فريق Hardcamp!",
 
 		skip = "<VP>%s</VP> قام بتخطي الخريطة!",
 		restart = "<VP>%s</VP> قام بإعادة الخريطة الحالية",
@@ -99,7 +114,8 @@ local translations = {
 		disabled = "تعطيل!",
 	},
 	br = {
-		welcome = "Bem-vindo ao <B>#Hardcamp</B>! Digite !info para checar os comandos.\n\tVocê como admin: <I>/sala *#hardcamp0%s</I>\n\tReporte quaisquer problemas para Bolodefchoco#0015!",
+		desc = "Português brasileiro",
+		welcome = "Bem-vindo ao <B>#Hardcamp</B>! Digite !info para checar os comandos.\n\tVocê como admin: <I>/sala *#hardcamp0%s</I>\n\tReporte quaisquer problemas para Equipe do Hardcamp!",
 
 		skip = "<VP>%s</VP> acabou de passar o mapa!",
 		restart = "<VP>%s</VP> acabou de reiniciar o mapa atual!",
@@ -117,7 +133,7 @@ local translations = {
 				[1] = {"\t<J>» Mapas</J>\n", {
 					[1] = "<VP>!%s</VP> - Passa o mapa!",
 					[2] = "<VP>!%s</VP> - Recarrega o mapa atual!",
-					[3] = "<VP>!%s</VP> <PS>@Código</PS> <R>ou</R> <VP>!np <PS>@Código</PS></VP> - Carrega um mapa!",
+					[3] = "<VP>!%s</VP> <PS>@Código</PS> <R>ou</R> <VP>!np <PS>@Código</PS></VP> - Carrega um mapa de rotação!",
 				}},
 				[2] = {"\n\t<J>» Outros</J>\n", {
 					--[1] = "<VP>!%s</VP> <PS>Tempo</PS> - Define o tempo do mapa atual",
@@ -145,26 +161,28 @@ local translations = {
 		},
 	},
 	fr = {
-		welcome = "Bienvenue dans <B>#Hardcamp</B>! Ecrivez !info pour prendre connaîssance des commandes\n\tVeuillez reporter tout problèmes à Bolodefchoco#0015!",
+		desc = "Français",
+		welcome = "Bienvenue dans <B>#Hardcamp</B>! Ecrivez !info pour prendre connaîssance des commandes\n\tVeuillez reporter tous problèmes à l'équipe Hardcamp !",
 
-		skip = "<VP>%s</VP> vient de passer la carte!",
-		restart = "<VP>%s</VP> vient de recharger la carte actuelle!",
-		loadmap = "<VP>%s</VP> vient de charger la carte %s!",
-		settime = "Le temps restant à été définie à %s minutes!",
-		setstandtime = "Le temps général pour toutes les cartes à été définie à %s minutes!",
+		skip = "<VP>%s</VP> vient de passer la carte !",
+		restart = "<VP>%s</VP> vient de recharger la carte actuelle !",
+		loadmap = "<VP>%s</VP> vient de charger la carte %s !",
+		settime = "Le temps restant à été définie à %s minutes !",
+		setstandtime = "Le temps général pour toutes les cartes à été définie à %s minutes !",
 		enabled = "enabled! Appuyez sur <B>E</B> pour mettre un checkpoint et sur <B>Shift+E</B> pour le supprimer.",
 		difficulty = "Difficulté",
 		sizemap = "La carte que vous êtes en train de jouer est une sizemap. Vous devez changer de taille pour la compléter en utilisant les touches <VP>J</VP>, <VP>K</VP> et <VP>L</VP>.",
+        errorloadintribe = "Cette carte ne peut être jouée dans ce salon. Vous pouvez la jouer dans votre Maison de tribu.",
 
-		disabled = "désactivé!",
+		disabled = "désactivé !",
 
 		menu = {
 			[1] = {"%s", "\tLa différentre entre le bootcamp normal et Hardcamp est que nous acceptons des cartes plus dures et qui demandent plus de réflexion pour être complétées. C'est une version plus compliquée du bootcamp pour des joueurs expérimentés.\n\nSi vous voulez être admin dans un salon et utilisé des commandes spéciales, rejoignez le salon: %s"},
 			[2] = {"Commandes Admin", {
 				[1] = {"\t<J>» Cartes</J>\n", {
-					[1] = "<VP>!%s</VP> - Passe la carte!",
-					[2] = "<VP>!%s</VP> - Recharge la carte actuelle!",
-					[3] = "<VP>!%s</VP> <PS>@Code</PS> <R>ou</R> <VP>!np @Code</VP> - Charge une carte!",
+					[1] = "<VP>!%s</VP> - Passe la carte !",
+					[2] = "<VP>!%s</VP> - Recharge la carte actuelle !",
+					[3] = "<VP>!%s</VP> <PS>@Code</PS> <R>ou</R> <VP>!np @Code</VP> - Charger une carte de la rotation !",
 				}},
 				[2] = {"\n\t<J>» Autres</J>\n", {
 					--[1] = "<VP>!%s</VP> <PS>Time</PS> - Définie le temps de la carte actuelle",
@@ -186,12 +204,12 @@ local translations = {
 					[2] = "<VP>Maintenez la touche %s</VP> - Affiche le classement des temps sur la carte actuelle"
 				}},
 			}},
-			[4] = {"Cartes", "<J>Cartes : %s\n\n\tCliquez sur %s et envoyez votre carte. N'oubliez pas de lire les règles avant!"},
+			[4] = {"Cartes", "<J>Cartes : %s\n\n\tCliquez sur %s et envoyez votre carte. N'oubliez pas de lire les règles avant !"},
 			[5] = {"Remerciements", "<R>%s <G>- <N>Developeur\n%s <G>- <N>Evaluateurs de cartes"},
 		},
 	},
 	pl = {
-		welcome = "Witaj w <B>#Hardcamp</B>! Wpisz !info na czacie aby sprawdzić jakie są komendy\n\tZgłaszaj wszelkie błędy do Bolodefchoco#0015!",
+		welcome = "Witaj w <B>#Hardcamp</B>! Wpisz !info na czacie aby sprawdzić jakie są komendy\n\tZgłaszaj wszelkie błędy do Zespół Hardcamp!",
 
 		skip = "<VP>%s</VP> pominął/-ęła mapę!",
 		restart = "<VP>%s</VP> zrestartował/-a mapę!",
@@ -365,6 +383,26 @@ eventFileLoaded = function(id, data)
 	reloader = nil
 
 	maps = decodeMaps(data)
+	if #maps == 0 then
+		maps = {
+			{ 
+				7312345, 7813423, 7390999, 6458351, 7331240, 3944386, 6499717, 7887777, 7492108, 7227693, 6500075, 7399800, 7799572, 7275727, 7767666, 7424622, 7623620, 4784241, 4748429, 5525208, 4892845, 5526649, 6801791, 3085295, 3253469, 7590989, 7329789, 6974000, 7314101, 6998333, 7399290, 7573154, 7767776, 7000045, 7106057, 5159079, 4891210, 3976725, 4454308, 1719709, 7777345, 4766627, 7249205, 7700774, 5374593, 6794767, 3783671, 3558682, 7184872, 5746869, 7100750, 6834436, 7312283, 3866650, 4999420, 7404055, 7275031, 7225542, 6354614, 7700756, 7196825, 7704493, 764650, 3526517, 3636206, 6241414, 7880887, 7701092, 1586310, 6747530, 6584804, 7255000, 7440555, 4635946, 3295967, 3241030, 6927976, 3804078, 7235760, 6000056, 2423300, 3995343, 4019421, 1359620, 7440742, 7391900, 7861688, 6531399, 7744289, 7225000, 6229884, 7270727, 3024238, 6000059, 4701337, 5888889, 6550335, 7809934, 7510807, 6000053, 7784763, 2574744, 7799444, 7253986, 4605303, 7762789, 3940243, 7000026, 7060000, 7093000, 7040085, 7467428, 6509312, 6352723, 6933971, 7528270, 6245422, 7680250, 7766573, 2751700, 6914135, 2749928, 7773123, 6782978, 7688823, 7622698, 3883780, 7629226, 4993609, 7777797, 7452095, 7700777, 7462643, 4901438, 7700775, 7700776, 7063314, 6608398, 7277277, 4694197, 3937060, 7777346, 7487831, 7054821, 7076000, 7142739, 7569384, 7252052, 5588806
+			},
+			
+			{
+				2973289, 7000048, 7767676, 7803432, 7767911, 2429057, 7405764, 7382218, 5443566, 7277227, 7440577, 5865991, 7605914, 7066428, 3807588, 7333329, 7192039, 7398391, 2937562, 7767767, 7112860, 5678468, 7225493, 2545424, 6000051, 3737744, 7777790, 6367688, 7159725, 7175796, 7594493, 7333370, 7515104, 7192035, 7780188, 5819565, 7703910, 7862113, 6040706, 3999455, 7108857, 4901445, 7443061, 7799605, 7197699, 7511491, 7348525, 7399799, 4788994, 7711350, 6940207, 7416400, 3374686, 7333277, 7503502, 7018157, 7500010, 6494990, 7753256, 4834444, 4638223, 5850330, 7800015, 7819218, 3734991, 7777337, 7700079, 2781845, 7853715, 7602364, 7167539, 7368881, 4130202, 7333288, 7362743, 6219128, 6999993, 7333334, 7151000, 7400010, 6412958, 718155, 4478459, 7388889, 7606163, 4524009, 6615196, 7399501, 7481758, 7233535, 7248598, 7567477, 7219540, 7388868, 6803839, 7552876, 3684292, 4595576, 6237745, 3931358, 7194815, 4976520, 7455555, 7366541, 7889597, 7259777, 7249127, 7302686, 7769632, 6000054, 4883346, 5811698, 7333303, 6000057, 7809995, 6633990, 7667199, 6114776, 6000045, 7312300, 4890705, 5957368, 6911697, 5999098, 7192153, 7716928, 3339586, 7591019, 6000048, 7727783, 5408922, 6502657, 4808290, 7823148, 7355550, 7848484, 7326394, 7700773, 7375460, 7822361, 7096798, 7816606, 5191670, 7866108, 4074214, 7638730, 6187789, 7477677, 7288888, 3938895, 6777877, 7590990, 3386996, 7689929, 6562860, 7012500, 7795690, 7571417, 4523127, 7444343, 7799820, 6999007, 6933187, 6390810, 4212122, 6927386, 7295774, 7426666, 5983713, 7362441, 6000052, 7800436, 4390388, 7868622, 5699275, 7189842, 6813672, 7770714, 7192029, 7770222, 2451258, 7418452, 7301000, 7777333, 7597589, 7350612, 7173296, 1124529, 7245555, 7680539, 3704015, 6000058, 4160675, 7707630, 3780618, 6927717, 7344754, 4679241, 6228450, 7499994, 7528494, 7524910, 4528198, 7146500, 6799702, 7488708, 2836937, 7523286, 6000324, 7440757, 6000031, 4499335, 7233579, 7228130, 6521321, 7864529, 6793803, 7900041, 5847160, 2245734, 5485847, 4854044, 3645605, 7660753, 6051593, 6971808, 5172585, 7189846, 6252288, 7106520, 7462123, 6864581, 7843685, 3869792, 7277270, 6631702, 7208183, 4571716, 6449225, 5733227, 6501305, 6772088, 7227889, 6971808, 3809046, 5527374, 6921682, 7037760, 6038214, 7583614, 1046877, 7180403, 7474124, 7590988, 7469195, 7192034, 7372373, 7707620, 6466661, 7000003, 7274374
+			},
+			
+			{
+				7778370, 7192689, 7077000, 7688054, 7571410, 7794425, 7413360, 7603556, 5745650, 7227889, 7195382, 7333374, 4750695, 7254203, 7900000, 7344327, 7205876, 7254996, 6411817, 7329998, 7579998, 7840051, 4559481, 7633977, 7845008, 7777344, 2604643, 7820723, 5776126, 7737163, 7372300, 7240002, 7703901, 7438524, 7333345, 6970333, 7192033, 4209243, 4533719, 7844881, 7528644, 7796969, 7142063, 7543457, 6000045, 7770776, 7803690, 7480588, 6118143, 7355556, 7754154, 7767777, 7673670, 7192031, 7777347, 7091808, 7444324, 7782721, 7525222, 7493086, 7467223, 7337733, 6591698, 6538840, 7025830, 7269804, 6923967, 7372303, 7816585, 4559999
+			},
+			
+			{
+				6424348, 7152000, 7403537, 7844128, 7899996, 6974940, 6374076, 7777348, 4821321, 7417986, 7391000, 7777779, 3860496, 7833347, 6422459, 7523363, 7358578, 6205980, 6588488, 7282222, 7277272, 7480073, 7430434, 6652495
+			}
+		}
+	end
+
 	for i = 1, #maps do
 		maps[i].queue = maps[i]
 	end
@@ -441,21 +479,8 @@ eventFileLoaded = function(id, data)
 end
 
 -- System
-local roomManagers = {
-	["Auroraclears#0000"] = true,
-	["Bolodefchoco#0015"] = true,
-	["Mquk#0095"] = true,
-	["Shalander#0000"] = true,
-	["Virtini#0000"] = true,
-	["Xorcist#0020"] = true,
-	["Aaryaaaaaaaa#1102"] = true,
-	["Alarobzein#0000"] = true,
-	["Liluzivert#0000"] = true,
-	["Omgjrn#0000"] = true,
-	["Portwave#8221"] = true
-}
+local roomManagers = { }
 local roomAdmins = { }
-for k, v in next, roomManagers do roomAdmins[k] = v end
 
 local mapTimes = { }
 local info = { }
@@ -499,6 +524,11 @@ end
 
 local mouseSize = { }
 
+local getTranslation = function(n)
+	if not (n and info[n] and info[n].langue) then return translation end
+	return translations[info[n].langue] or translation
+end
+
 -- UI
 ui.menu = function(n)
 	if not info[n].menu.accessing then
@@ -506,7 +536,7 @@ ui.menu = function(n)
 		info[n].menu.accessing = true
 	end
 
-	local langue = translation.menu
+	local langue = getTranslation(n).menu
 
 	if info[n].menu.page < 1 then
 		info[n].menu.page = #langue
@@ -545,7 +575,7 @@ ui.menu = function(n)
 			end
 			displayText[2] = string.format(displayText[2], m.."<N>", "<BV><a href='event:print.atelier801¬com/topic?f=6&t=850791'>#HARDCAMP MAP SUBMISSIONS</a></BV>")
 		elseif info[n].menu.page == 5 then
-			displayText[2] = string.format(displayText[2], "Bolodefchoco#0015", "<BV>Mquk#0095, Xorcist#0000, Auroraclears#0000</BV>")
+			displayText[2] = string.format(displayText[2], "Bolodefchoco#0095", "<BV>Mquk#0095, Xorcist#0000, Auroraclears#0000</BV>")
 		end
 	end
 
@@ -558,7 +588,13 @@ ui.menu = function(n)
 	ui.addTextArea(7, "<p align='center'><font size='20' color='#92CF91'><B>"..string.upper(displayText[1]).."</B></V><font size='15'>\n<R>_____________\n\n<font size='11'><N><p align='left'>"..displayText[2], n, 260, 42, 280, 330, 0x1E120B, 1, 1, true)
 end
 
--- Events
+local updateMapUi = function()
+	local diff = maps and maps.queue and maps.queue._currentCat or 0
+	ui.setMapName("<J>" .. (tfm.get.room.xmlMapInfo and tfm.get.room.xmlMapInfo.author or "?") .. " <BL>- " .. tfm.get.room.currentMap .. "   <G>|<N>   " .. translation.difficulty .. " : <V>" .. diff)
+end
+
+-- 
+local nextUiUpdate
 local nextMap
 currentTime = 0
 eventLoop = function(currentTime, leftTime)
@@ -580,6 +616,13 @@ eventLoop = function(currentTime, leftTime)
 			end
 		end
 	end
+
+	-- Update map info at intervals
+	nextUiUpdate = nextUiUpdate or 1000
+	if currentTime >= nextUiUpdate then
+		nextUiUpdate = currentTime + 4400
+		updateMapUi()
+	end
 end
 
 eventNewPlayer = function(n)
@@ -594,8 +637,14 @@ eventNewPlayer = function(n)
 				timer = 0,
 			},
 			logo = tfm.exec.addImage("15d75ac6aa9.png", "&0", 120, 100, n),
-			logo_timer = 6
+			logo_timer = 6,
+			langue = tfm.get.room.community or "en"
 		}
+	end
+
+	if roomManagerIds[tfm.get.room.playerList[n].id] then
+		roomManagers[n] = true
+		roomAdmins[n] = true
 	end
 
 	tfm.exec.respawnPlayer(n)
@@ -605,11 +654,12 @@ eventNewPlayer = function(n)
 		system.bindKeyboard(n, string.byte("O"), i == 1, true)
 	end
 
-	for k, v in next, {46, string.byte("HEJKL", 1, -1)} do -- 46 is del
+	for k, v in next, {46, string.byte("HEGJKL", 1, -1)} do -- 46 is del
 		system.bindKeyboard(n, v, true, true)
 	end
 
-	tfm.exec.chatMessage("<T>" .. string.format(translation.welcome, n) .. "\n\t<CEP>atelier801.com/topic?f=6&t=850791", n)
+	tfm.exec.chatMessage("<T>" .. string.format(getTranslation(n).welcome, n) .. "\n\t<CEP>atelier801.com/topic?f=6&t=850791", n)
+	
 end
 
 local resizeEveryone = function(size)
@@ -625,6 +675,7 @@ eventNewGame = function()
 	if not maps or not maps.queue then return tfm.exec.setGameTime(0) end
 
 	nextMap = nil
+	nextUiUpdate = nil
 	if tfm.get.room.xmlMapInfo then
 		local min, mid, max = string.match(tfm.get.room.xmlMapInfo.xml, "[\" ]size=\"([^\"]-), *([^\"]-), *([^\"]-)\"")
 		if not min then
@@ -644,7 +695,9 @@ eventNewGame = function()
 				mapAllowsChangeSize = true
 				resizeEveryone(mid)
 
-				tfm.exec.chatMessage("<T>" .. translation.sizemap)
+				for k in next, tfm.get.room.playerList do
+					tfm.exec.chatMessage("<T>" .. getTranslation(k).sizemap, k)
+				end
 			end
 		else
 			resizeEveryone(1)
@@ -659,8 +712,8 @@ eventNewGame = function()
 			end
 		end
 		if diff then
-			ui.setMapName("<J>" .. (tfm.get.room.xmlMapInfo and tfm.get.room.xmlMapInfo.author or "?") .. " <BL>- " .. tfm.get.room.currentMap .. "   <G>|<N>   " .. translation.difficulty .. " : <V>" .. diff)
 			maps.queue._currentCat = diff -- just to be sure
+			updateMapUi()
 		else
 			maps.queue._currentCat = nil -- 0 points
 		end
@@ -668,6 +721,7 @@ eventNewGame = function()
 
 	mapTimes = { }
 	tfm.exec.setGameTime(module.time)
+	tfm.exec.setPlayerSync("none")
 
 	for k, v in next, info do
 		v.cheese = false
@@ -696,7 +750,7 @@ eventKeyboard = function(n, k, d, x, y)
 		end
 	elseif k == string.byte("H") then
 		eventChatCommand(n, "h")
-	elseif k == 46 then
+	elseif k == 46 or k == string.byte("G") then
 		tfm.exec.killPlayer(n)
 	elseif mapAllowsChangeSize and mouseSize[k] then
 		tfm.exec.changePlayerSize(n, mouseSize[k])
@@ -715,34 +769,56 @@ eventChatCommand = function(n, c)
 				ui.menu(n)
 			end
 		end
-	elseif p[1] == "remcheese" then
-		if tfm.get.room.playerList[n].hasCheese then
-			info[n].cheese = false
-
-			tfm.exec.removeCheese(n)
+	elseif p[1] == "lang" or p[1] == "langue" then
+		local prefer = p[2] or tfm.get.room.community
+		if not translations[prefer] then
+			tfm.exec.chatMessage("<T>• Paramètre invalide !", n)
+		else
+			info[n].langue = prefer
+			tfm.exec.chatMessage("<T>• Votre langue est définie sur : " .. getTranslation(n).desc .. " (".. prefer ..")", n)
 		end
 	else
 		if roomAdmins[n] then
 			if p[1] == "next" and currentTime > 5000 then
 				tfm.exec.newGame(maps())
-				tfm.exec.chatMessage("<T>• " .. string.format(translation.skip, n))
-			elseif p[1] == "again" and currentTime > 5000 then
+				tfm.exec.chatMessage("<T>• " .. string.format(getTranslation(n).skip, n))
+			elseif (p[1] == "reset" or p[1] == "rst" or p[1] == "again") and currentTime > 5000 then
 				if tfm.get.room.currentMap then
 					tfm.exec.newGame(tfm.get.room.currentMap)
-					tfm.exec.chatMessage("<T>• " .. string.format(translation.restart, n))
+					tfm.exec.chatMessage("<T>• " .. string.format(getTranslation(n).restart, n))
 				end
 			elseif (p[1] == "np" or p[1] == "map") and currentTime > 5000 then
 				if p[2] then
 					if #p[2] == 1 then
 						tfm.exec.newGame(maps(tonumber(p[2])))
-						tfm.exec.chatMessage("<T>• " .. string.format(translation.loadmap, n, "Level " .. p[2]))
+						for k in next, tfm.get.room.playerList do
+							tfm.exec.chatMessage("<T>• " .. string.format(getTranslation(k).loadmap, n, "Level " .. p[2]), k)
+						end
 					else
+						if not tfm.get.room.isTribeHouse and not roomManagers[n] then
+							local code = tonumber(p[2]:match('%d+'))
+							local diff
+							for j = 1, #maps do
+								if maps[j]._hashedQueue[code] then
+									diff = j
+									break
+								end
+							end
+							if not diff then
+								return tfm.exec.chatMessage("<R>• " .. getTranslation(n).errorloadintribe, n)
+							end
+						end
+
 						tfm.exec.newGame(p[2])
-						tfm.exec.chatMessage("<T>• " .. string.format(translation.loadmap, n, string.find(p[2], "@") and p[2] or "@"..p[2]))
+						for k in next, tfm.get.room.playerList do
+							tfm.exec.chatMessage("<T>• " .. string.format(getTranslation(k).loadmap, n, string.find(p[2], "@") and p[2] or "@"..p[2]), k)
+						end
 					end
 				else
 					tfm.exec.newGame(maps())
-					tfm.exec.chatMessage("<T>• " .. string.format(translation.loadmap, n, "Random"))
+					for k in next, tfm.get.room.playerList do
+						tfm.exec.chatMessage("<T>• " .. string.format(getTranslation(k).loadmap, n, "Random"), k)
+					end
 				end
 			--[=[
 			elseif p[1] == "time" then
@@ -781,7 +857,9 @@ eventChatCommand = function(n, c)
 
 				if not (checkpoint and attribute) then
 					checkpoint = not checkpoint
-					tfm.exec.chatMessage("<T>Checkpoint " .. translation[checkpoint and "enabled" or "disabled"])
+					for k in next, tfm.get.room.playerList do
+						tfm.exec.chatMessage("<T>Checkpoint " .. getTranslation(k)[checkpoint and "enabled" or "disabled"])
+					end
 
 					if not checkpoint then
 						ui.removeTextArea(1, nil)
@@ -807,6 +885,20 @@ eventChatCommand = function(n, c)
 					end
 					tfm.exec.chatMessage(string.rep('-', 60), n)
 				end
+			elseif p[1] == "dump" then
+				tfm.exec.chatMessage("<V>--- START DUMP ---", n)
+				local encodedFile = { }
+				for i = 1, #maps do
+					encodedFile[i] = maps[i].queue
+				end
+				local msg = encodeMaps(encodedFile)
+					:gsub("<", "&lt;")
+					:gsub("\n", "\\n")
+				local times = math.ceil(#msg/1000)
+				for i = 0, times - 1 do
+					tfm.exec.chatMessage(msg:sub(#msg*(i/times)+1, #msg*((i+1)/times)), n)
+				end
+				tfm.exec.chatMessage("<V>--- END DUMP ---", n)
 			elseif p[1] == "add" then
 				if not p[3] then
 					return tfm.exec.chatMessage("<R>• Missing map code. Syntax: !add level map_code [map_code ...]", n)
@@ -883,6 +975,11 @@ eventChatCommand = function(n, c)
 					toSave = nil
 					tfm.exec.chatMessage("<T>• Saved.", n)
 				end
+			elseif p[1] == "remcheese" then
+				if tfm.get.room.playerList[n].hasCheese then
+					info[n].cheese = false
+					tfm.exec.removeCheese(n)
+				end
 			end
 		end
 	end
@@ -953,7 +1050,7 @@ eventTextAreaCallback = function(i, n, c)
 end
 
 -- Room
-if string.byte(tfm.get.room.name, 2) ~= 3 then -- Is room
+if not tfm.get.room.isTribeHouse then -- Is room
 	local info = string.match(tfm.get.room.name, "#hardcamp%d+(.+)")
 	if info then
 		local admins = string.gsub(info, "%S+", function(value)
